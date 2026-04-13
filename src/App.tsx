@@ -19,10 +19,10 @@ function App() {
   useEffect(() => {
     IndexedDBService.initialize().catch(console.error);
 
-    // Register service worker for PWA
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('/sw.js').catch(console.error);
-    }
+    // Register service worker for PWA (disabled temporarily for debugging)
+    // if ('serviceWorker' in navigator) {
+    //   navigator.serviceWorker.register('/sw.js').catch(console.error);
+    // }
 
     // Load API keys from environment variables or localStorage
     const envGeminiKey = import.meta.env.VITE_GEMINI_API_KEY;
