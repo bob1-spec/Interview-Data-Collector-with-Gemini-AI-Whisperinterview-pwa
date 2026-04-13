@@ -1,8 +1,9 @@
-const CACHE_NAME = 'interview-collector-v1';
+const CACHE_NAME = 'interview-collector-v2';
+const BASE_PATH = '/Interview-Data-Collector-with-Gemini-AI-Whisperinterview-pwa';
 const ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.json',
+  BASE_PATH + '/',
+  BASE_PATH + '/index.html',
+  BASE_PATH + '/manifest.json',
 ];
 
 // Install event
@@ -68,7 +69,7 @@ self.addEventListener('fetch', (event) => {
 
           // Return offline page if available
           if (request.destination === 'document') {
-            return caches.match('/index.html').catch(() => new Response('Offline'));
+            return caches.match(BASE_PATH + '/index.html').catch(() => new Response('Offline'));
           }
 
           return new Response('Offline');
