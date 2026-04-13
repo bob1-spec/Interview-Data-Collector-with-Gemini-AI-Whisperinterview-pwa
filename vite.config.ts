@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/interview-pwa/',  // GitHub Pages base path
+  base: '/Interview-Data-Collector-with-Gemini-AI-Whisperinterview-pwa/',
   plugins: [react()],
 })
