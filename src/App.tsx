@@ -32,19 +32,21 @@ function App() {
     const storedWhisperKey = localStorage.getItem('whisperKey') || envWhisperKey;
 
     if (storedGeminiKey) {
-      try {
-        const { OpenAIExtractor } = require('./services/openaiExtractor');
-        const { VoiceRecognitionService } = require('./services/voiceRecognition');
+      (async () => {
+        try {
+          const extractor = await import('./services/openaiExtractor');
+          const voiceService = await import('./services/voiceRecognition');
+          
+          extractor.OpenAIExtractor.initialize(storedGeminiKey);
+          if (storedWhisperKey) {
+            voiceService.VoiceRecognitionService.setWhisperKey(storedWhisperKey);
+          }
 
-        OpenAIExtractor.initialize(storedGeminiKey);
-        if (storedWhisperKey) {
-          VoiceRecognitionService.setWhisperKey(storedWhisperKey);
+          setUseAI(true);
+        } catch (error) {
+          console.error('Failed to restore API services:', error);
         }
-
-        setUseAI(true);
-      } catch (error) {
-        console.error('Failed to restore API services:', error);
-      }
+      })();
     }
   }, []);
 
@@ -120,15 +122,15 @@ function App() {
                   </div>
                   
                   <button
-                    onClick={() => {
+                    onClick={async () => {
                       if (geminiKey.trim()) {
                         try {
-                          const { OpenAIExtractor } = require('./services/openaiExtractor');
-                          const { VoiceRecognitionService } = require('./services/voiceRecognition');
+                          const extractor = await import('./services/openaiExtractor');
+                          const voiceService = await import('./services/voiceRecognition');
                           
-                          OpenAIExtractor.initialize(geminiKey);
+                          extractor.OpenAIExtractor.initialize(geminiKey);
                           if (whisperKey.trim()) {
-                            VoiceRecognitionService.setWhisperKey(whisperKey);
+                            voiceService.VoiceRecognitionService.setWhisperKey(whisperKey);
                             localStorage.setItem('whisperKey', whisperKey);
                           }
                           localStorage.setItem('geminiKey', geminiKey);
